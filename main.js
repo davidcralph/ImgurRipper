@@ -1,23 +1,29 @@
-const fs = require ("fs"),
-    query = require('cli-interact').question,    
-    query2 = require('cli-interact').getYesNo,
-    exec = require('child_process').exec;
-
+// Modules
+const fs = require("fs"),
+      query = require('cli-interact').question,    
+      query2 = require('cli-interact').getYesNo,
+      request = require('request-promise-native');
+ 
+// Wizard     
 if (!fs.existsSync('./rips/')) {
     fs.mkdirSync('./rips/');
     console.log('[Ripper] Created /rips/ directory');
 }
 
 let answer = query('[Ripper] Imgur URL? ');
+
 if (!answer) {
     console.log('[Ripper] Error: No URL provided');
     process.exit();
 }
+
 if (!answer.includes("imgur.com")) {
     console.log('[Ripper] Error: Not a valid Imgur URL');
     process.exit();
 }
+
 let answer2 = query('[Ripper] Folder Name? ');
+
 if (!answer2) {
     console.log('[Ripper] Error: No folder name provided');
     process.exit();
@@ -35,11 +41,38 @@ if (fs.existsSync(`./rips/${answer2}`)) {
     fs.mkdirSync(`./rips/${answer2}`);
 }
 
+
+// Downloader
 console.log('[Ripper] Downloading');
-exec(`node ./ripper.js ${answer} ./rips/${answer2}`, function(error, stdout, stderr) {
-    console.log(`[Ripper] Success: Saved to ./rips/${answer2}`);
-    console.log('[Ripper] Press any key to exit');
-    process.stdin.setRawMode(true);
-    process.stdin.resume();
-    process.stdin.on('data', process.exit.bind(process, 0));
-});
+function getAlbumHash(url) {
+    return url.split("/")[url.split("/").length - 1]
+}
+
+async function getImages() {
+let options = {
+     url: `https://api.imgur.com/3/album/${getAlbumHash(answer)}/images`,
+     headers: {
+        'Authorization': `Client-ID 6b64b0446da80dc`
+      }
+    };
+
+   await request(options)
+        .then(async function (r) {
+            let images = JSON.parse(r).data;
+            console.log(`[Ripper] Found ${images.length} images in album`);
+            for(let i = 0; i < images.length; i++) {
+                let image = images[i];
+                let filename = `${image.id}.${image.type.replace(/(\w+\/)/, '')}`;
+                console.log(`[Ripper] Fetching ${image.link}`);
+                await request(image.link)
+                .pipe(fs.createWriteStream(`./rips/${answer2}/${filename}`));
+            }
+            console.log(`[Ripper] Success: Saved to ./rips/${answer2}`);
+            console.log('[Ripper] Press any key to exit');
+            process.stdin.setRawMode(true);
+            process.stdin.resume();
+            process.stdin.on('data', process.exit.bind(process, 0));
+        });
+}
+
+getImages();
