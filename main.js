@@ -8,8 +8,14 @@ if(!fs.existsSync('./rips/')) {
     console.log('[Ripper] Created /rips/ directory');
 }
 
-let answer = query('[Ripper] Imgur URL? '),
-    answer2 = query('[Ripper] Folder Name? ');
+let answer = query('[Ripper] Imgur URL? ');
+if (!answer) {
+    process.exit();
+}
+let answer2 = query('[Ripper] Folder Name? ');
+if (!answer2) {
+    process.exit();
+}
     
 if(fs.existsSync(`./rips/${answer2}`)) {
    console.log('[Ripper] Error: This folder already exists');
