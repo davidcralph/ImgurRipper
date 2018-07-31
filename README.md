@@ -13,7 +13,7 @@ Node.js Imgur album ripper
 2. Run the exe 
 
 ## Benchmarks
-| Tests             | [Imgurtofolder](https://github.com/santosderek/Imgur-To-Folder) | [ImgurRipper](https://github.com/ohlookitsderpy/ImgurRipper/) (this tool) |
+| Tests             | [Imgur-To-Folder](https://github.com/santosderek/Imgur-To-Folder) | [ImgurRipper](https://github.com/ohlookitsderpy/ImgurRipper/) (this tool) |
 | ----------------- | ------------- | ----------- |
 | Test 1 (75 items) | 45 seconds    | 25 seconds  |
 | Test 2 (21 items) | 4 seconds     | 2 seconds   |
