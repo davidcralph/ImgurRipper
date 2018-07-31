@@ -14,9 +14,9 @@ Node.js Imgur album ripper
 
 ## Benchmarks
 | Tests             | [Imgur-To-Folder](https://github.com/santosderek/Imgur-To-Folder) | [ImgurRipper](https://github.com/ohlookitsderpy/ImgurRipper/) (this tool) |
-| ----------------- | ------------- | ----------- |
-| Test 1 (75 items) | 45 seconds    | 25 seconds  |
-| Test 2 (21 items) | 4 seconds     | 2 seconds   |
+| ----------------- | ------------- | ------------ |
+| Test 1 (21 items) | 4 seconds     | 0.44 seconds |
+| Test 2 (soon tm)  | soon          | soon         |
 
 ## Credits
-https://github.com/nicolsek/Album-Pull - Base ripper, made it easier to use :^)
+https://github.com/VictorioBerra/imgur-album-downloader/ - Base ripper, made it faster and easier to use :^)
