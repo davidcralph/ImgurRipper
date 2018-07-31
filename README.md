@@ -8,7 +8,7 @@ Node.js Imgur album ripper
 2. ``cd ImgurRipper``
 3. ``node main.js``
 
-## Automatic
+### Automatic
 1. Download the exe from the releases page
 2. Run the exe 
 
