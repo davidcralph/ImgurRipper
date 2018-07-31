@@ -38,4 +38,8 @@ if (fs.existsSync(`./rips/${answer2}`)) {
 console.log('[Ripper] Downloading');
 exec(`node ./ripper.js ${answer} ./rips/${answer2}`, function(error, stdout, stderr) {
     console.log(`[Ripper] Success: Saved to ./rips/${answer2}`);
+    console.log('[Ripper] Press any key to exit');
+    process.stdin.setRawMode(true);
+    process.stdin.resume();
+    process.stdin.on('data', process.exit.bind(process, 0));
 });
