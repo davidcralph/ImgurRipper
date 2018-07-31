@@ -3,7 +3,7 @@ const fs = require ("fs"),
     query2 = require('cli-interact').getYesNo,
     exec = require('child_process').exec;
 
-if(!fs.existsSync('./rips/')) {
+if (!fs.existsSync('./rips/')) {
     fs.mkdirSync('./rips/');
     console.log('[Ripper] Created /rips/ directory');
 }
@@ -23,7 +23,7 @@ if (!answer2) {
     process.exit();
 }
     
-if(fs.existsSync(`./rips/${answer2}`)) {
+if (fs.existsSync(`./rips/${answer2}`)) {
    console.log('[Ripper] Error: This folder already exists');
    let answer3 = query2('[Ripper] Do you want to write to this folder anyway?');
    if (answer3 == false) { 
