@@ -8,7 +8,7 @@ let args = process.argv.splice(2, 4),
     headers: {
         'authorization': 'Client-ID 6b64b0446da80dc'
     }
- }
+  }
 
 function getAlbumHash(url) {
     return url.split("/")[url.split("/").length - 1]
