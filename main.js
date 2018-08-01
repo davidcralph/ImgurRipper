@@ -2,7 +2,7 @@
 const fs = require("fs"),
       query = require('cli-interact').question,    
       query2 = require('cli-interact').getYesNo,
-      request = require('request-promise-native');
+      fetch = require('node-superfetch');
  
 // Wizard     
 if (!fs.existsSync('./rips/')) {
@@ -41,31 +41,20 @@ if (fs.existsSync(`./rips/${answer2}`)) {
     fs.mkdirSync(`./rips/${answer2}`);
 }
 
-
 // Downloader
 console.log('[Ripper] Downloading');
-function getAlbumHash(url) {
-    return url.split("/")[url.split("/").length - 1]
-}
 
 async function getImages() {
-let options = {
-     url: `https://api.imgur.com/3/album/${getAlbumHash(answer)}/images`,
-     headers: {
-        'Authorization': `Client-ID 6b64b0446da80dc`
-      }
-    };
-
-   await request(options)
-        .then(async function (r) {
-            let images = JSON.parse(r).data;
+   await fetch.get(`https://api.imgur.com/3/album/${answer.split("/")[answer.split("/").length - 1]}/images`)
+         .set('Authorization', 'Client-ID 6b64b0446da80dc')
+         .then(async r => {
+            let images = r.body.data;
             console.log(`[Ripper] Found ${images.length} images in album`);
             for(let i = 0; i < images.length; i++) {
                 let image = images[i];
                 let filename = `${image.id}.${image.type.replace(/(\w+\/)/, '')}`;
                 console.log(`[Ripper] Fetching ${image.link}`);
-                await request(image.link)
-                .pipe(fs.createWriteStream(`./rips/${answer2}/${filename}`));
+                await fetch.get(image.link).set('Authorization', 'Client-ID 6b64b0446da80dc').then(res => fs.writeFileSync(`./rips/${answer2}/${filename}`))
             }
             console.log(`[Ripper] Success: Saved to ./rips/${answer2}`);
             console.log('[Ripper] Press any key to exit');
