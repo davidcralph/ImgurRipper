@@ -1,3 +1,5 @@
+# This repo is archived.
+
 # ImgurRipper
 Node.js Imgur album ripper
 
