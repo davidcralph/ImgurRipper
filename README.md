@@ -1,4 +1,5 @@
 # This repo is archived.
+More info over at https://github.com/DerpyArchive/what-is-this
 
 Original contents below:
 
